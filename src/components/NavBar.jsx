@@ -39,7 +39,7 @@ const NavBar = () => {
     <Box bg="teal.400" p={4}>
       <Flex>
         <Box p="2">
-          <a href="/">Home</a>
+          <a href="/">Nc News</a>
         </Box>
         <Box p="2">
           {loading ? (
@@ -48,7 +48,7 @@ const NavBar = () => {
             <Select placeholder="Select a topic" onChange={handleTopicSelect}>
               {topics.map((topic) => (
                 <option key={topic.slug} value={topic.slug}>
-                  {topic.description}
+                  {topic.slug}
                 </option>
               ))}
             </Select>
