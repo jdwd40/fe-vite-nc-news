@@ -1,20 +1,22 @@
-import { BrowserRouter as Router, Route, Switch } from 'react-router-dom';
-import TopicList from './components/TopicList';
+import React from 'react';
+import { Route, Switch, useLocation } from 'react-router-dom';
 import ArticleList from './components/ArticleList';
 import Article from './components/Article';
-import UserProfile from './components/UserProfile';
 import Login from './components/Login';
+import UserProfile from './components/UserProfile';
 
-const Routes = () => (
-  <Router>
-    <Switch>
+const Routes = () => {
+  const location = useLocation();
+
+  return (
+    <Switch key={location.search}>
       <Route exact path="/" component={ArticleList} />
-      <Route exact path="/articles" component={ArticleList} />
-      <Route exact path="/articles/:article_id" component={Article} />
+      <Route path="/articles/:article_id" component={Article} />
       <Route exact path="/users/:username" component={UserProfile} />
       <Route path="/login" component={Login} />
     </Switch>
-  </Router>
-);
+  );
+};
 
 export default Routes;
+

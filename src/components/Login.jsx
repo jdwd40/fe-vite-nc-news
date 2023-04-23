@@ -1,60 +1,58 @@
-import React from 'react';
-import { useForm } from 'react-hook-form';
+// components/Login.jsx
+import React, { useState } from 'react';
+import { useHistory } from 'react-router-dom';
 import {
   Box,
-  Button,
   FormControl,
   FormLabel,
   Input,
-  VStack,
-  useToast,
+  Button,
+  Center,
 } from '@chakra-ui/react';
 import { useAuth } from '../contexts/AuthContext';
-import apiClient from '../apiClient';
 
 const Login = () => {
-  const { register, handleSubmit } = useForm();
+  const [username, setUsername] = useState('');
+  const [password, setPassword] = useState('');
   const { login } = useAuth();
-  const toast = useToast();
+  const history = useHistory();
 
-  const onSubmit = async (data) => {
+  const handleSubmit = async (e) => {
+    e.preventDefault();
     try {
-      const response = await apiClient.post('/api/users/login', data);
-      login(response.data);
-      toast({
-        title: 'Logged in',
-        description: `Welcome, ${response.data.username}!`,
-        status: 'success',
-        duration: 3000,
-        isClosable: true,
-      });
+      await login(username, password);
+      history.push('/');
     } catch (error) {
-      toast({
-        title: 'Login failed',
-        description: 'Invalid username or password',
-        status: 'error',
-        duration: 3000,
-        isClosable: true,
-      });
+      console.error('Error logging in:', error);
     }
   };
 
   return (
-    <Box>
-      <VStack as="form" onSubmit={handleSubmit(onSubmit)} spacing={4} maxWidth="400px" mx="auto">
-        <FormControl id="username" isRequired>
-          <FormLabel>Username</FormLabel>
-          <Input {...register('username')} />
-        </FormControl>
-        <FormControl id="password" isRequired>
-          <FormLabel>Password</FormLabel>
-          <Input type="password" {...register('password')} />
-        </FormControl>
-        <Button type="submit" colorScheme="blue" mt={4}>
-          Login
-        </Button>
-      </VStack>
-    </Box>
+    <Center>
+      <Box>
+        <form onSubmit={handleSubmit}>
+          <FormControl>
+            <FormLabel>Username</FormLabel>
+            <Input
+              type="text"
+              value={username}
+              onChange={(e) => setUsername(e.target.value)}
+            />
+          </FormControl>
+          <FormControl>
+            <FormLabel>Password</FormLabel>
+            <Input
+              type="password"
+              value={password}
+              onChange={(e) => setPassword(e.target.value)}
+            />
+          </FormControl>
+          <Button type="submit" colorScheme="blue">
+            Login
+          </Button>
+        </form>
+      </Box>
+    </Center>
   );
 };
 

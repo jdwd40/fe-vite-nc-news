@@ -12,7 +12,6 @@ import { useAuth } from '../contexts/AuthContext';
 import apiClient from '../apiClient';
 import { useTopic } from '../contexts/TopicsContext';
 
-
 const NavBar = () => {
   const { user, logout } = useAuth();
   const [topics, setTopics] = useState([]);
@@ -30,16 +29,17 @@ const NavBar = () => {
   }, []);
 
   const handleTopicSelect = (e) => {
-    const selectedTopic = e.target.value;
-    setSelectedTopic(selectedTopic);
+   // when the user selects a topic display the articles for that topic immediately
+   const topic = e.target.value;
+    setSelectedTopic(topic);
+    history.push(`/?topic=${topic}`);
   };
-
 
   return (
     <Box bg="teal.400" p={4}>
       <Flex>
         <Box p="2">
-          <a href="/">Nc News</a>
+          <a href="/">Home</a>
         </Box>
         <Box p="2">
           {loading ? (
@@ -48,7 +48,7 @@ const NavBar = () => {
             <Select placeholder="Select a topic" onChange={handleTopicSelect}>
               {topics.map((topic) => (
                 <option key={topic.slug} value={topic.slug}>
-                  {topic.slug}
+                  {topic.description}
                 </option>
               ))}
             </Select>
@@ -57,7 +57,7 @@ const NavBar = () => {
         <Spacer />
         {user ? (
           <Box>
-            <span>{user.username}</span>
+            <span>Welcome, {user}</span>
             <Button ml="4" onClick={logout} colorScheme="blue">
               Logout
             </Button>
