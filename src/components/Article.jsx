@@ -10,6 +10,7 @@ import {
   HStack,
 } from '@chakra-ui/react';
 import apiClient from '../apiClient';
+import CommentList from './CommentList';
 
 const Article = () => {
   const [article, setArticle] = useState(null);
@@ -40,6 +41,7 @@ const Article = () => {
           <Text>Upvotes: {article.votes}</Text>
           <Button colorScheme="blue">Upvote</Button>
         </HStack>
+          <CommentList article_id={article.article_id} key={article.created_at}/>
       </Box>
       {/* Add comments section here */}
     </VStack>

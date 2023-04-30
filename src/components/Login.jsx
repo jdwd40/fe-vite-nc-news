@@ -9,15 +9,18 @@ import {
   Text,
 } from '@chakra-ui/react';
 import { useAuth } from '../contexts/AuthContext';
+import { useHistory } from 'react-router-dom';
 
 const Login = () => {
   const [username, setUsername] = useState('');
   const { login, error } = useAuth();
+  const history = useHistory();
 
   const handleSubmit = async (e) => {
     e.preventDefault();
     try {
       await login(username);
+      history.push('/');
     } catch (err) {
       console.error(err);
     }
