@@ -1,6 +1,6 @@
-# [Your Project Name]
+# NC News
 
-[Your Project Name] is a web application built with [React](https://reactjs.org/), [Chakra UI](https://chakra-ui.com/), and [Vite](https://vitejs.dev/). The app allows users to browse and interact with articles and comments.
+NC News is a web application built with [React](https://reactjs.org/), [Chakra UI](https://chakra-ui.com/), and [Vite](https://vitejs.dev/). The app allows users to browse and interact with articles and comments.
 
 ## Features
 
