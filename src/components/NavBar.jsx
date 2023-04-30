@@ -57,7 +57,7 @@ const NavBar = () => {
         <Spacer />
         {user ? (
           <Box>
-            <span>Welcome, {user}</span>
+            <span>Welcome, {user.username}</span>
             <Button ml="4" onClick={logout} colorScheme="blue">
               Logout
             </Button>

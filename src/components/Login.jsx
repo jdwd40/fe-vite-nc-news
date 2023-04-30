@@ -1,29 +1,25 @@
-// components/Login.jsx
 import React, { useState } from 'react';
-import { useHistory } from 'react-router-dom';
 import {
   Box,
+  Button,
+  Center,
   FormControl,
   FormLabel,
   Input,
-  Button,
-  Center,
+  Text,
 } from '@chakra-ui/react';
 import { useAuth } from '../contexts/AuthContext';
 
 const Login = () => {
   const [username, setUsername] = useState('');
-  const [password, setPassword] = useState('');
-  const { login } = useAuth();
-  const history = useHistory();
+  const { login, error } = useAuth();
 
   const handleSubmit = async (e) => {
     e.preventDefault();
     try {
-      await login(username, password);
-      history.push('/');
-    } catch (error) {
-      console.error('Error logging in:', error);
+      await login(username);
+    } catch (err) {
+      console.error(err);
     }
   };
 
@@ -39,18 +35,13 @@ const Login = () => {
               onChange={(e) => setUsername(e.target.value)}
             />
           </FormControl>
-          <FormControl>
-            <FormLabel>Password</FormLabel>
-            <Input
-              type="password"
-              value={password}
-              onChange={(e) => setPassword(e.target.value)}
-            />
-          </FormControl>
-          <Button type="submit" colorScheme="blue">
-            Login
-          </Button>
+          <Button type="submit">Login</Button>
         </form>
+        {error && (
+          <Text color="red.500" mt="2">
+            {error}
+          </Text>
+        )}
       </Box>
     </Center>
   );

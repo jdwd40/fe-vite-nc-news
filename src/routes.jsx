@@ -9,7 +9,7 @@ const Routes = () => {
   const location = useLocation();
 
   return (
-    <Switch key={location.search}>
+    <Switch key={location.search}>r
       <Route exact path="/" component={ArticleList} />
       <Route path="/articles/:article_id" component={Article} />
       <Route exact path="/users/:username" component={UserProfile} />

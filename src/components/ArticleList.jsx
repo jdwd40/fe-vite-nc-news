@@ -26,6 +26,7 @@ const ArticleList = () => {
   }, [location.search]);
   
   console.log(articles);
+  
   return (
     <VStack spacing={4} align="stretch">
       {articles.map((article) => (

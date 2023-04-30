@@ -1,35 +1,51 @@
 import { createContext, useState, useContext } from 'react';
+//import axios from 'axios';
+import apiClient from '../apiClient';
 
 const AuthContext = createContext();
 
 export const AuthProvider = ({ children }) => {
   const [user, setUser] = useState(null);
+  const [error, setError] = useState(null);
 
   const login = async (username) => {
-    // check api for user GET /api/users/:username
-    const response = await axios.get(`/api/users/${username}`);
-    // if user exists, set user
-    const user = response.data.user;
-    setUser(user);
+    try {
+      console.log(username);
+      const response = await apiClient.get(`/users/${username}`);
 
-    if (response.status === 200) {
-      setUser(response.data.user);
-    } else {
-      throw new Error('Login failed');
+      if (response.status === 200) {
+        const data = response.data;
+        console.log(data);
+        if (data.user.msg) {
+          setError(data.user.msg);
+        } else {
+          setUser(data.user);
+          setError(null);
+        }
+      } else {
+        setError('Login failed');
+      }
+    } catch (error) {
+      console.log('Error logging in:', error);
+      setError('Login failed');
     }
   };
-
-
-
-
 
   const logout = () => {
     setUser(null);
   };
 
-  const authValue = { user, login, logout };
-
-  return <AuthContext.Provider value={authValue}>{children}</AuthContext.Provider>;
+  return (
+    <AuthContext.Provider value={{ user, login, logout, error }}>
+      {children}
+    </AuthContext.Provider>
+  );
 };
 
-export const useAuth = () => useContext(AuthContext);
+export const useAuth = () => {
+  const context = useContext(AuthContext);
+  if (context === undefined) {
+    throw new Error('useAuth must be used within an AuthProvider');
+  }
+  return context;
+};
