@@ -32,14 +32,14 @@ const NavBar = () => {
    // when the user selects a topic display the articles for that topic immediately
    const topic = e.target.value;
     setSelectedTopic(topic);
-    history.push(`/?topic=${topic}`);
+    history.push(`/articles/?topic=${topic}`);
   };
 
   return (
     <Box bg="teal.400" p={4}>
       <Flex>
         <Box p="2">
-          <a href="/">Home</a>
+          <a href="/">NC News</a>
         </Box>
         <Box p="2">
           {loading ? (
@@ -48,7 +48,7 @@ const NavBar = () => {
             <Select placeholder="Select a topic" onChange={handleTopicSelect}>
               {topics.map((topic) => (
                 <option key={topic.slug} value={topic.slug}>
-                  {topic.description}
+                  {topic.slug}
                 </option>
               ))}
             </Select>
